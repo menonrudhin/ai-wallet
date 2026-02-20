@@ -1,28 +1,20 @@
 import re
-import pdfplumber
 import pandas as pd
 import time
 import matplotlib.pyplot as plt
+import sys
+from file_reader import read_file
+from scotia_utils import opening_balance, closing_balance
 
-filePathPrefix = "/Users/rudhinmenon/Workspace/python/AI-Wallet/"
-statements = ["jan.pdf","feb.pdf","mar.pdf","apr.pdf","may.pdf", "jun.pdf", "jul.pdf", "aug.pdf",
-              "sep.pdf", "oct.pdf", "nov.pdf", "dec.pdf"]
+if (len(sys.argv) < 2):
+    print("Error: No file path provided")
+    sys.exit(1)
 
-table_setting = {
-    "vertical_strategy": "text",
-    "horizontal_strategy": "text"
-}
+file_path = sys.argv[1]
 
-row_length = 5
+rows = read_file(file_path)
+opening_balance = opening_balance(rows)
+closing_balance = closing_balance(rows)
 
-def extract_transactions(pdf_path):
-    rows = []
-    with pdfplumber.open(pdf_path) as pdf:
-        for page in pdf.pages:
-            tables = page.extract_tables(table_settings=table_setting)
-            for table in tables:
-                for row in table:
-                    print(row)
-
-for statement in statements:
-    extract_transactions(filePathPrefix + statement);
+print(f"Opening Balance: {opening_balance}")
+print(f"Closing Balance: {closing_balance}")
