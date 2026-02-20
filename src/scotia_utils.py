@@ -8,7 +8,7 @@ def opening_balance(rows):
             if "OpeningBalanceon" in cell:
                 # for every cell in row, check if the cell starts with $ and number in format x,xxx.xx
                 for cell in row:
-                    if cell.startswith("$") and re.match(r"\$\d{1,3}(,\d{3})*(\.\d{2})?", cell):
+                    if re.match(r"\$\d{1,3}(,\d{3})*(\.\d{2})?", cell.strip()):
                         return cell
 
 def closing_balance(rows):
@@ -19,5 +19,5 @@ def closing_balance(rows):
             if "ClosingBalanceon" in cell:
                 # for every cell in row, check if the cell starts with $ and number in format x,xxx.xx
                 for cell in row:
-                    if cell.startswith("$") and re.match(r"\$\d{1,3}(,\d{3})*(\.\d{2})?", cell):
+                    if re.match(r"\$\d{1,3}(,\d{3})*(\.\d{2})?", cell):
                         return cell

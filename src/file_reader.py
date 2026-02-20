@@ -16,4 +16,5 @@ def read_file(pdf_path):
             for table in tables:
                 for row in table:
                     print(row)
+                    rows.append(row)
     return rows
