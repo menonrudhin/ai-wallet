@@ -1,9 +1,12 @@
 import pdfplumber
+import logging
 
 table_setting = {
     "vertical_strategy": "text",
     "horizontal_strategy": "text"
 }
+
+logger = logging.getLogger(__name__)
 
 def read_file(pdf_path, statement):
     rows = []
@@ -12,6 +15,6 @@ def read_file(pdf_path, statement):
             tables = page.extract_tables(table_settings=table_setting)
             for table in tables:
                 for row in table:
-                    #print(row)
+                    logger.info(row)
                     rows.append(row)
     return rows
