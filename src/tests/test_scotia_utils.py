@@ -8,21 +8,21 @@ class TestScotiaUtils(unittest.TestCase):
     def test_opening_balance_found(self):
         rows = [
             ['*0', '', '', '', ''],
-            ['0', 'OpeningBalanceonDecember24,2024', '', '$23,677.06', '']
+            ['0', 'openingbalanceondecember24,2024', '', '$23,677.06', '']
         ]
         self.assertEqual(opening_balance(rows), "$23,677.06")
 
     def test_opening_balance_not_found(self):
         rows = [
             ['*0', '', '', '', ''],
-            ['0', 'SomeOtherText24,2024', '', '$23,677.06', '']
+            ['0', 'omeOtherText24,2024', '', '$23,677.06', '']
         ]
         self.assertIsNone(opening_balance(rows))
 
     def test_closing_balance_found(self):
         rows = [
             ['', '', '', '', ''],
-            ['0', 'ClosingBalanceonJanuary23,2025', '', '$38,287.77', '']
+            ['0', 'closingbalanceonjanuary23,2025', '', '$38,287.77', '']
         ]
         self.assertEqual(closing_balance(rows), "$38,287.77")
 

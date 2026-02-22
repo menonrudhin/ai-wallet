@@ -14,7 +14,7 @@ class TestFileReader(unittest.TestCase):
         mock_pdf.pages = [mock_page]
         mock_pdf_open.return_value.__enter__.return_value = mock_pdf
 
-        rows = file_reader.read_file("")
+        rows = file_reader.read_file("", "")
         self.assertIsInstance(rows, list)
         self.assertGreater(len(rows), 0)
         self.assertIn(["cell1", "cell2"], rows)

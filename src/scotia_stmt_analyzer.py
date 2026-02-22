@@ -26,13 +26,14 @@ logging.basicConfig(
 )
 
 logger = logging.getLogger(__name__)
-
 overall_net_balance = 0
+transactions = []
 
 # Process each statement and calculate net balance
 for statement in statements:
     rows = read_file(file_path, statement)
     rows = cleanup(rows)
+    transactions.extend(rows)
     start = opening_balance(rows)
     close = closing_balance(rows)
     logger.info(f"Statement Summary for : {statement}")
@@ -44,5 +45,5 @@ for statement in statements:
 
 logger.info(f"Overall Net Balance for the year: {round(overall_net_balance, 2)}")
 
-for row in rows:
-    logger.info(f"Transaction Row: {row}")
+for transaction in transactions:
+    logger.info(f"Transaction: {transaction}")
