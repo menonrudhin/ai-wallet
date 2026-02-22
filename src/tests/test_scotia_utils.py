@@ -1,5 +1,5 @@
 import unittest
-from scotia_utils import opening_balance, closing_balance
+from scotia_utils import extract_year, opening_balance, closing_balance
 
 class TestScotiaUtils(unittest.TestCase):
     def test_hello_world(self):
@@ -33,12 +33,12 @@ class TestScotiaUtils(unittest.TestCase):
         ]
         self.assertIsNone(closing_balance(rows))
 
-    # def test_opening_balance_with_other_characters(self):
-    #     rows = [
-    #         ['*0', '', '', '', ''],
-    #         ['0', 'OpeningBalanceonDecember24,2024', '', ' *-- $23,677.06 ', '']
-    #     ]
-    #     self.assertEqual(opening_balance(rows), "$23,677.06")
+    def test_extract_year_found(self):
+        rows = [
+            ['*0', '', '', '', ''],
+            ['0', 'openingbalanceondecember24,2024', '', '$23,677.06', '']
+        ]
+        self.assertEqual(extract_year(rows), "2024")
 
 if __name__ == '__main__':
     unittest.main()
