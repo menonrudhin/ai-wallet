@@ -3,7 +3,7 @@ import time
 import sys
 import logging
 from file_reader import read_file
-from scotia_utils import opening_balance, closing_balance
+from scotia_utils import opening_balance, closing_balance, extract_year
 from net_balance import net_balance_monthly
 from scotia_cleanup import cleanup
 
@@ -16,7 +16,7 @@ file_path = sys.argv[1]
 statements = ["jan.pdf","feb.pdf","mar.pdf","apr.pdf","may.pdf", "jun.pdf", "jul.pdf", "aug.pdf",
               "sep.pdf", "oct.pdf", "nov.pdf", "dec.pdf"]
 
-statements = ["jan.pdf"]
+statements = ["oct.pdf"]
 
 logging.basicConfig(
     level=logging.DEBUG,
@@ -36,7 +36,8 @@ for statement in statements:
     transactions.extend(rows)
     start = opening_balance(rows)
     close = closing_balance(rows)
-    logger.info(f"Statement Summary for : {statement}")
+    year = extract_year(rows)
+    logger.info(f"Statement Summary for : {statement} , Year: {year}")
     logger.info(f"Opening Balance: {start}")
     logger.info(f"Closing Balance: {close}")
     net_balance = net_balance_monthly(start, close)

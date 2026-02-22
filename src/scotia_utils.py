@@ -21,3 +21,11 @@ def closing_balance(rows):
                 for cell in row:
                     if re.match(r"\$\d{1,3}(,\d{3})*(\.\d{2})?", cell):
                         return cell
+                    
+def extract_year(rows):
+    # find pattern on followed by month and day and year in format onMonthDay,Year
+    for row in rows:
+        for cell in row:
+            if "openingbalanceon" in cell:
+                year = cell.split(",")[-1]
+                return year
