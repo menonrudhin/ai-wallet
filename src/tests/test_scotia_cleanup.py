@@ -4,46 +4,40 @@ from scotia_cleanup import cleanup
 
 class TestCleanup(unittest.TestCase):
     def test_cleanup_strips_whitespace(self):
-        rows = [["  hello  ", "  world  "], ["foo", "  bar"]]
+        rows = [["  01  ", "  Dec31  "], [" ", "  expense"]]
         result = cleanup(rows)
-        self.assertEqual(result[0][0], "hello")
-        self.assertEqual(result[0][1], "world")
-        self.assertEqual(result[1][1], "bar")
+        self.assertEqual(result[0][0], "dec31")
+        self.assertEqual(result[1][0], "expense")
 
     def test_cleanup_converts_to_lowercase(self):
-        rows = [["HELLO", "WoRLd"], ["FOO", "Bar"]]
+        rows = [["01", "Dec31 XYZ"], [" 786", "Expense"]]
         result = cleanup(rows)
-        self.assertEqual(result[0][0], "hello")
-        self.assertEqual(result[0][1], "world")
-        self.assertEqual(result[1][0], "foo")
-        self.assertEqual(result[1][1], "bar")
+        self.assertEqual(result[0][0], "dec31 xyz")
+        self.assertEqual(result[1][0], "expense")
 
     def test_cleanup_removes_empty_rows(self):
-        rows = [["hello", "world"], ["", ""], ["foo", "bar"]]
+        rows = [[" x01", " Jan10 PayrollDep."], ["", ""], ["480", " #524867-5 Payment"]]
         result = cleanup(rows)
         self.assertEqual(len(result), 2)
-        self.assertEqual(result[0], ["hello", "world"])
-        self.assertEqual(result[1], ["foo", "bar"])
+        self.assertEqual(result[0], ["jan10 payrolldep."])
+        self.assertEqual(result[1], ["#524867-5 payment"])
 
     def test_cleanup_handles_none_values(self):
-        rows = [["hello", None], [None, "world"]]
+        rows = [[" ", None], [None, " YYX"]]
         result = cleanup(rows)
-        self.assertEqual(result[0][0], "hello")
-        self.assertEqual(result[0][1], "")
-        self.assertEqual(result[1][0], "")
-        self.assertEqual(result[1][1], "world")
+        self.assertEqual(result[0][0], "yyx")
 
     def test_cleanup_combined_operations(self):
-        rows = [["  HELLO  ", "  WORLD  "], ["", ""], ["  FOO  ", "  BAR  "]]
+        rows = [["  HELLO  ", "  Dec31deposit  "], ["", ""], ["  FOO  ", "  BAR  "]]
         result = cleanup(rows)
         self.assertEqual(len(result), 2)
-        self.assertEqual(result[0], ["hello", "world"])
-        self.assertEqual(result[1], ["foo", "bar"])
+        self.assertEqual(result[0], ["dec31deposit"])
+        self.assertEqual(result[1], ["bar"])
 
     def test_cleanup_with_already_clean_data(self):
-        rows = [["hello", "world"], ["foo", "bar"]]
+        rows = [["01", "dec31"], ["foo", "yuz"]]
         result = cleanup(rows)
-        self.assertEqual(result, [["hello", "world"], ["foo", "bar"]])
+        self.assertEqual(result, [["dec31"], ["yuz"]])
 
 
 if __name__ == '__main__':
