@@ -1,3 +1,4 @@
+from datetime import datetime
 import re
 import logging
 
@@ -49,7 +50,12 @@ def extract_date(cell, year):
         month_number = month_map.get(month_name.lower(), "")
         formatted_date = f"{year}-{month_number}-{day}"
         logger.debug(f"Extracted date: {formatted_date}")
-        return formatted_date
+        # create a python date object from formatted_date and return it
+        try:
+            return datetime.strptime(formatted_date, "%Y-%m-%d")
+        except ValueError:
+            logger.debug(f"Failed to parse date: {formatted_date}")
+            return formatted_date
     else:
         logger.debug(f"No date found in cell: {cell}")
         return None
@@ -72,3 +78,23 @@ def extract_description(row):
             if cell.strip() != "":
                 description.append(cell.strip())
     return description
+
+
+def extract_transaction_amount(row):
+    # for every cell in row, check if the cell has number in format x,xxx.xx, only return the first match
+    for cell in row:
+        match = re.search(r"(\d{1,3}(,\d{3})*(\.\d{2}))", cell.strip())
+        if match:
+            return match.group(0)
+
+def extract_balance(row):
+    # find all numeric amounts in the row and return the second one
+    all_matches = []
+    for cell in row:
+        matches = re.finditer(r"\d{1,3}(,\d{3})*(\.\d{2})?", cell.strip())
+        for match in matches:
+            all_matches.append(match.group(0))
+    
+    if len(all_matches) > 1:
+        return all_matches[2]
+    return None

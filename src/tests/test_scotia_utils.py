@@ -1,5 +1,6 @@
 import unittest
-from scotia_utils import extract_date, extract_description, extract_year, opening_balance, closing_balance
+from datetime import datetime
+from scotia_utils import extract_balance, extract_date, extract_description, extract_transaction_amount, extract_year, opening_balance, closing_balance
 
 class TestScotiaUtils(unittest.TestCase):
     def test_hello_world(self):
@@ -44,7 +45,7 @@ class TestScotiaUtils(unittest.TestCase):
         cell = "oct31 description"
         year = "2024"
         result = extract_date(cell, year)
-        self.assertEqual(result, "2024-10-31")
+        self.assertEqual(result, datetime(2024, 10, 31, 0, 0))
 
     def test_extract_description_1(self):
         row = ['jan13 health/dentalclaimins', '', '68.40 16,753.11', '']
@@ -55,6 +56,27 @@ class TestScotiaUtils(unittest.TestCase):
         row = ['jan30', 'mortgagepa', 'yment', '2,495.06', '', '19,452.12']
         result = extract_description(row)
         self.assertEqual(result, ["mortgagepa", "yment"])
+
+    def test_extract_transaction_amount_1(self):
+        row = ['jan30', 'mortgagepa', 'yment', '2,495.06', '', '19,452.12']
+        result = extract_transaction_amount(row)
+        self.assertEqual(result, "2,495.06")
+
+    def test_extract_transaction_amount_2(self):
+        row = ['jan30', 'payrolldep.', '', '', '3,977.36', '21,947.18']
+        result = extract_transaction_amount(row)
+        self.assertEqual(result, "3,977.36")
+
+    def test_extract_transaction_amount_3(self):
+        row = ['jan9 deposit', '', '1,000.00 17,960.71', '']
+        result = extract_transaction_amount(row)
+        self.assertEqual(result, "1,000.00")
+
+    def test_extract_transaction_amount_3(self):
+        row = ['jan9 deposit', '', '1,000.00 17,960.71', '']
+        result = extract_balance(row)
+        self.assertEqual(result, "17,960.71")
+    
 
 if __name__ == '__main__':
     unittest.main()

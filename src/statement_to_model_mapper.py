@@ -1,5 +1,5 @@
 from transaction_model import TransactionModel
-from scotia_utils import extract_date, extract_description
+from scotia_utils import extract_balance, extract_date, extract_description, extract_transaction_amount
 import logging
 
 logger = logging.getLogger(__name__)
@@ -13,8 +13,14 @@ def map_statement_to_model(row, year):
     if description is None:
         logger.debug(f"Skipping row due to invalid/missing description: {row}")
         return None
-    amount = 2.09 #extract_amount(row[2])
-    balance = 100.02 #extract_balance(row[3])
+    amount = extract_transaction_amount(row)
+    if amount is None:
+        logger.debug(f"Skipping row due to missing transaction amount: {row}")
+        return None
+    balance = extract_balance(row)
+    if balance is None:
+        logger.debug(f"Skipping row due to missing balance: {row}")
+        return None
     transaction = TransactionModel(date, description, amount, balance)
     logger.info(f"Mapped transaction: {transaction}")
     return transaction
