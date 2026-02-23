@@ -20,7 +20,7 @@ file_path = sys.argv[1]
 statements = ["jan.pdf","feb.pdf","mar.pdf","apr.pdf","may.pdf", "jun.pdf", "jul.pdf", "aug.pdf",
               "sep.pdf", "oct.pdf", "nov.pdf", "dec.pdf"]
 
-#statements = ["jan.pdf"]
+#statements = ["sep.pdf"]
 
 logging.basicConfig(
     level=logging.INFO,
@@ -50,6 +50,16 @@ for statement in statements:
 
 logger.info(f"Overall Net Balance for the year: {round(overall_net_balance, 2)}")
 
+merged_rows = []
+for row in transactions:
+    merged_row = " ".join(row)
+    merged_rows.append(merged_row)
+
+for merged_row in merged_rows:
+    logger.info(f"Merged Row: {merged_row}")
+
+transactions = merged_rows
+
 transaction_obj_list = []
 
 for transaction in transactions:
@@ -73,6 +83,10 @@ for transaction in transaction_obj_list:
 
 # create a dataframe from transaction_obj_list
 df = pd.DataFrame([vars(txn) for txn in transaction_obj_list])
+# print dataframe where category is Credit Card
+credit_card_df = df[df['category'] == 'Credit Card']
+logger.info(f"Dataframe of Credit Card transactions: \n{credit_card_df}")
+
 logger.info(f"Dataframe of transactions: \n{df.head()}")
 
 plot_pie_chart(df)

@@ -34,10 +34,10 @@ def extract_year(rows):
                 year = cell.split(",")[-1]
                 return year
             
-def extract_date(cell, year):
-    logger.debug(f"Extracting date from cell: {cell} with year: {year}")
-    # extract date in format MonthDay,Year from cell
-    match = re.search(r"(^[a-zA-Z]{3}\d{1,2})", cell)
+def extract_date(row, year):
+    logger.debug(f"Extracting date from row: {row} with year: {year}")
+    # extract date in format MonthDay,Year from row
+    match = re.search(r"(^[a-zA-Z]{3}\d{1,2})", row)
     if match:
         # convert to yyyy-mm-dd format
         month_name = match.group(1)[:3]
@@ -57,44 +57,55 @@ def extract_date(cell, year):
             logger.debug(f"Failed to parse date: {formatted_date}")
             return formatted_date
     else:
-        logger.debug(f"No date found in cell: {cell}")
+        logger.debug(f"No date found in row: {row}")
         return None
     
 def extract_description(row):
-    # for every cell in row extract words and put in an array except the ones that are just numbers
-    description = []
-
     # if any cell has string "openingbal" or "closingbal" then skip the row
-    for cell in row:
-        if "openingbal" in cell.lower() or "closingbal" in cell.lower():
-            return None
+    if "openingbal" in row.lower() or "closingbal" in row.lower():
+        return None
 
-    for cell in row:
-        logger.debug(f"Extracting description from cell: {cell}")
-        if (cell.strip() != "") and (not re.match(r"\${0,1}\d{1,3}(,\d{3})*(\.\d{2})?", cell.strip())):
-            # extract only the part that does not have dates like Jan31
-            cell = re.sub(r"^[a-zA-Z]{3}\d{1,2}", "", cell)
-            logger.debug(f"Extracted description cell: {cell}")
-            if cell.strip() != "":
-                description.append(cell.strip())
-    return description
+    logger.debug(f"Extracting description from row: {row}")
+    if (row.strip() != "") and (not re.match(r"\${0,1}\d{1,3}(,\d{3})*(\.\d{2})?", row.strip())):
+        # extract only the non-numeric part of the string as description
+        desc = re.sub(r"\${0,1}\d{1,3}(,\d{3})*(\.\d{2})?", "", row).strip()
+        logger.debug(f"Extracted description row: {desc}")
+    return desc.strip()
 
 
 def extract_transaction_amount(row):
-    # for every cell in row, check if the cell has number in format x,xxx.xx, only return the first match
-    for cell in row:
-        match = re.search(r"(\d{1,3}(,\d{3})*(\.\d{2}))", cell.strip())
-        if match:
-            return match.group(0)
+    all_matches = []
+    matches = re.finditer(r"\d{1,3}(,\d{3})*(\.\d{2})?", row.strip())
+    temp = ""
+    # ignore first match
+    first_match = True
+    for match in matches:
+        logger.debug(f"Found transaction amount match: {match.group(0)} in row: {row}")
+        if first_match:
+            first_match = False
+            continue
+        if not "." in match.group(0):
+            temp = match.group(0)
+        elif temp != "" and "." in match.group(0):
+            all_matches.append(temp + match.group(0))
+            temp = ""
+        else:
+            temp = ""
+            all_matches.append(match.group(0))
+        logger.debug(f"All matches so far: {all_matches}")
+    max = len(all_matches)
+    if max > 1:
+        return all_matches[max-2]
+    return None
 
 def extract_balance(row):
     # find all numeric amounts in the row and return the second one
     all_matches = []
-    for cell in row:
-        matches = re.finditer(r"\d{1,3}(,\d{3})*(\.\d{2})?", cell.strip())
-        for match in matches:
-            all_matches.append(match.group(0))
-    
-    if len(all_matches) > 1:
-        return all_matches[2]
+    matches = re.finditer(r"\d{1,3}(,\d{3})*(\.\d{2})?", row.strip())
+    for match in matches:
+        logger.debug(f"Found balance match: {match.group(0)} in row: {row}")
+        all_matches.append(match.group(0))
+    max = len(all_matches)
+    if max > 1:
+        return all_matches[max-1]
     return None

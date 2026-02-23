@@ -9,6 +9,7 @@ creditcard/locpaymentunexpected.scotiainsurance,Credit Card
 deposit,Deposit
 depositcheckouttheoffersandgeta,Deposit
 health/dentalclaimins,Refund
+claim,Refund
 investment,Investment
 investmentyourfamilyfromthe,Investment
 loans,Debt
@@ -16,12 +17,13 @@ mb-transferto,Credit Card
 misc.payment,Car Installment
 misc.paymentdeathandcriticalillness,Car Installment
 mortgagepayment,Mortgage
-mortgagepayment 2,Mortgage
+mortgagepa yment,Mortgage
 payrolldep.,Payroll
 payrolldep.takestepstowardsprotecting,Payroll
 payrolldep.termlifetravelaccidental,Payroll
 pointofsalepurchase,Services
 propertytaxes,Property Taxes
+propertytaxe s,Property Taxes
 propertytaxesconfidentthatyourcoverage,Property Taxes
 taxrefund,Tax Refund
 utilitybill,Utility Bill
