@@ -3,10 +3,13 @@ import time
 import sys
 import logging
 from file_reader import read_file
+from plot_chart import plot_bar_chart, plot_pie_chart
 from scotia_utils import opening_balance, closing_balance, extract_year
 from net_balance import net_balance_monthly
 from scotia_cleanup import cleanup
 from statement_to_model_mapper import map_statement_to_model
+from scotia_ml_model import initialize_model, predict_category
+import pandas as pd
 
 if (len(sys.argv) < 2):
     print("Error: No file path provided")
@@ -47,8 +50,30 @@ for statement in statements:
 
 logger.info(f"Overall Net Balance for the year: {round(overall_net_balance, 2)}")
 
+transaction_obj_list = []
+
 for transaction in transactions:
     logger.info(f"Transaction: {transaction}")
     transaction_obj = map_statement_to_model(transaction, year)
     if transaction_obj is not None:
         logger.info(f"Mapped Transaction: {transaction_obj}")
+        transaction_obj_list.append(transaction_obj)
+
+initialize_model()
+
+descriptions = [" ".join(txn.description) if isinstance(txn.description, list) else txn.description for txn in transaction_obj_list]
+
+predicted_categories = predict_category(descriptions)
+
+for txn, category in zip(transaction_obj_list, predicted_categories):
+    txn.category = category
+
+for transaction in transaction_obj_list:
+    logger.info(f"Transaction: {transaction} , Predicted Category: {transaction.category}")
+
+# create a dataframe from transaction_obj_list
+df = pd.DataFrame([vars(txn) for txn in transaction_obj_list])
+logger.info(f"Dataframe of transactions: \n{df.head()}")
+
+plot_pie_chart(df)
+plot_bar_chart(df)

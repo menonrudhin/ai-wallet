@@ -5,8 +5,8 @@ import logging
 logger = logging.getLogger(__name__)
 
 def plot_pie_chart(df):
-    # Convert amount to numeric
-    df["amount"] = pd.to_numeric(df["amount"], errors="coerce")
+    # Convert amount to numeric (remove commas first)
+    df["amount"] = df["amount"].astype(str).str.replace(",", "").apply(pd.to_numeric, errors="coerce")
     
     # Group by Category
     category_sum = df.groupby("category")["amount"].sum()
@@ -22,8 +22,8 @@ def plot_pie_chart(df):
     plt.show()
 
 def plot_bar_chart(df):
-    # Convert amount to numeric
-    df["amount"] = pd.to_numeric(df["amount"], errors="coerce")
+    # Convert amount to numeric (remove commas first)
+    df["amount"] = df["amount"].astype(str).str.replace(",", "").apply(pd.to_numeric, errors="coerce")
     
     # Group by MonthYear and Category
     monthly_data = (

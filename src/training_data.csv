@@ -1,28 +1,29 @@
-'abmwithdrawal','Cash'
-'abmwithdrawalofferspersonalizedcoverage','Cash'
-'billpayment','Credit Card'
-'canadacarbonrebate','Tax Refund'
-'creditcard/locpayment','Credit Card'
-'creditcard/locpayment 3,insurancesoyoucanfeel','Credit Card'
-'creditcard/locpaymentunexpected.scotiainsurance','Credit Card'
-'deposit','Deposit'
-'depositcheckouttheoffersandgeta','Deposit'
-'health/dentalclaimins','Refund'
-'investment','Investment'
-'investmentyourfamilyfromthe','Investment'
-'loans','Debt'
-'mb-transferto','Credit Card'
-'misc.payment','Car Installment'
-'misc.paymentdeath,andcriticalillness','Car Installment'
-'mortgagepayment','Mortgage'
-'mortgagepayment 2,','Mortgage'
-'payrolldep.','Payroll'
-'payrolldep.takestepstowardsprotecting','Payroll'
-'payrolldep.termlife,travel,accidental','Payroll'
-'pointofsalepurchase','Services'
-'propertytaxes','Property Taxes'
-'propertytaxesconfidentthatyourcoverage','Property Taxes'
-'taxrefund','Tax Refund'
-'utilitybill','Utility Bill'
-'withdrawal','Cash'
-'withdrawalfitsyourspecificneeds.','Property Taxes'
+description,category
+abmwithdrawal,Cash
+abmwithdrawalofferspersonalizedcoverage,Cash
+billpayment,Credit Card
+canadacarbonrebate,Tax Refund
+creditcard/locpayment,Credit Card
+creditcard/locpayment 3insurancesoyoucanfeel,Credit Card
+creditcard/locpaymentunexpected.scotiainsurance,Credit Card
+deposit,Deposit
+depositcheckouttheoffersandgeta,Deposit
+health/dentalclaimins,Refund
+investment,Investment
+investmentyourfamilyfromthe,Investment
+loans,Debt
+mb-transferto,Credit Card
+misc.payment,Car Installment
+misc.paymentdeathandcriticalillness,Car Installment
+mortgagepayment,Mortgage
+mortgagepayment 2,Mortgage
+payrolldep.,Payroll
+payrolldep.takestepstowardsprotecting,Payroll
+payrolldep.termlifetravelaccidental,Payroll
+pointofsalepurchase,Services
+propertytaxes,Property Taxes
+propertytaxesconfidentthatyourcoverage,Property Taxes
+taxrefund,Tax Refund
+utilitybill,Utility Bill
+withdrawal,Cash
+withdrawalfitsyourspecificneeds.,Property Taxes
