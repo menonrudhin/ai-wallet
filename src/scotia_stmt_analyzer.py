@@ -6,6 +6,7 @@ from file_reader import read_file
 from scotia_utils import opening_balance, closing_balance, extract_year
 from net_balance import net_balance_monthly
 from scotia_cleanup import cleanup
+from statement_to_model_mapper import map_statement_to_model
 
 if (len(sys.argv) < 2):
     print("Error: No file path provided")
@@ -16,7 +17,7 @@ file_path = sys.argv[1]
 statements = ["jan.pdf","feb.pdf","mar.pdf","apr.pdf","may.pdf", "jun.pdf", "jul.pdf", "aug.pdf",
               "sep.pdf", "oct.pdf", "nov.pdf", "dec.pdf"]
 
-statements = ["oct.pdf"]
+statements = ["jan.pdf"]
 
 logging.basicConfig(
     level=logging.DEBUG,
@@ -48,3 +49,6 @@ logger.info(f"Overall Net Balance for the year: {round(overall_net_balance, 2)}"
 
 for transaction in transactions:
     logger.info(f"Transaction: {transaction}")
+    transaction_obj = map_statement_to_model(transaction, year)
+    if transaction_obj is not None:
+        logger.info(f"Mapped Transaction: {transaction_obj}")

@@ -1,5 +1,5 @@
 import unittest
-from scotia_utils import extract_date, extract_year, opening_balance, closing_balance
+from scotia_utils import extract_date, extract_description, extract_year, opening_balance, closing_balance
 
 class TestScotiaUtils(unittest.TestCase):
     def test_hello_world(self):
@@ -45,6 +45,16 @@ class TestScotiaUtils(unittest.TestCase):
         year = "2024"
         result = extract_date(cell, year)
         self.assertEqual(result, "2024-10-31")
+
+    def test_extract_description_1(self):
+        row = ['jan13 health/dentalclaimins', '', '68.40 16,753.11', '']
+        result = extract_description(row)
+        self.assertEqual(result, ["health/dentalclaimins"])
+
+    def test_extract_description_2(self):
+        row = ['jan30', 'mortgagepa', 'yment', '2,495.06', '', '19,452.12']
+        result = extract_description(row)
+        self.assertEqual(result, ["mortgagepa", "yment"])
 
 if __name__ == '__main__':
     unittest.main()
