@@ -5,6 +5,10 @@ import logging
 logger = logging.getLogger(__name__)
 
 def map_statement_to_model(row, year):
+    logger.info(f"Mapping row to model: {row} for year: {year}")
+    if row is None or len(row) == 0:
+        logger.debug(f"Skipping empty or None row: {row}")
+        return None
     date = extract_date(row[0], year)
     if date is None:
         logger.debug(f"Skipping row due to missing date: {row}")
