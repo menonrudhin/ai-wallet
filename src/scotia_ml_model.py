@@ -5,13 +5,25 @@ import pandas as pd
 
 df = pd.read_csv("training_data.csv")
 
-model = Pipeline([
+# Pipeline for category prediction
+category_model = Pipeline([
+    ("tfidf", TfidfVectorizer()),
+    ("clf", LogisticRegression())
+])
+
+# Pipeline for transaction type prediction (credit/debit)
+type_model = Pipeline([
     ("tfidf", TfidfVectorizer()),
     ("clf", LogisticRegression())
 ])
 
 def initialize_model():
-    model.fit(df["description"], df["category"])
+    # Train both models
+    category_model.fit(df["description"], df["category"])
+    type_model.fit(df["description"], df["type"])  # "credit" or "debit"
 
 def predict_category(descriptions):
-    return model.predict(descriptions)
+    return category_model.predict(descriptions)
+
+def predict_type(descriptions):
+    return type_model.predict(descriptions)
