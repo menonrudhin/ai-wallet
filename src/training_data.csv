@@ -7,6 +7,7 @@ creditcard/locpayment,Credit Card,Debit
 creditcard/locpayment 3insurancesoyoucanfeel,Credit Card,Debit
 creditcard/locpaymentunexpected.scotiainsurance,Credit Card,Debit
 deposit,Deposit,Credit
+abc deposit,Deposit,Credit
 depositcheckouttheoffersandgeta,Deposit,Credit
 health/dentalclaimins,Refund,Credit
 claim,Refund,Credit
@@ -26,6 +27,7 @@ propertytaxes,Property Taxes,Debit
 propertytaxe s,Property Taxes,Debit
 propertytaxesconfidentthatyourcoverage,Property Taxes,Debit
 taxrefund,Tax Refund,Credit
+abc taxrefund,Tax Refund,Credit
 utilitybill,Utility Bill,Debit
 withdrawal,Cash,Debit
 withdrawalfitsyourspecificneeds.,Property Taxes,Debit
