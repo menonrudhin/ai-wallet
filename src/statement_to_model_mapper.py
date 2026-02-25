@@ -5,7 +5,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 def map_statement_to_model(row, year):
-    logger.info(f"Mapping row to model: {row} for year: {year}")
+    logger.debug(f"Mapping row to model: {row} for year: {year}")
     if row is None or len(row) == 0:
         logger.debug(f"Skipping empty or None row: {row}")
         return None
@@ -28,5 +28,5 @@ def map_statement_to_model(row, year):
         logger.debug(f"Skipping row due to missing balance: {row}")
         return None
     transaction = TransactionModel(date, description, amount, balance)
-    logger.info(f"Mapped transaction: {transaction}")
+    #logger.info(f"Mapped transaction: {transaction}")
     return transaction

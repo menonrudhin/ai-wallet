@@ -19,7 +19,7 @@ file_path = sys.argv[1]
 statements = ["jan.pdf","feb.pdf","mar.pdf","apr.pdf","may.pdf", "jun.pdf", "jul.pdf", "aug.pdf",
               "sep.pdf", "oct.pdf", "nov.pdf", "dec.pdf"]
 
-#statements = ["jan.pdf"]
+#statements = ["dec.pdf"]
 
 logging.basicConfig(
     level=logging.INFO,
@@ -57,7 +57,30 @@ for row in transactions:
 for merged_row in merged_rows:
     logger.debug(f"Merged Row: {merged_row}")
 
-transactions = merged_rows
+# for every row in merged_rows, if the row starts with pattern jan31 then append all the next non empty rows to the current row until we find another row that starts with pattern jan31 or we reach the end of merged_rows
+pattern = re.compile(r"(^[a-zA-Z]{3}\d{1,2})")  # Pattern to match lines starting with a word followed by 2 digits (e.g., jan31)
+new_merged_rows = []
+i = 0
+while i < len(merged_rows):
+    current_row = merged_rows[i]
+    if pattern.match(current_row.strip()):
+        logger.debug(f"Transaction start with date: {current_row} at index: {i}")
+        combined_row = current_row.strip()
+        i += 1
+        while i < len(merged_rows) and not pattern.match(merged_rows[i].strip()) and merged_rows[i].strip() != "":
+            logger.debug(f"Appending row: {merged_rows[i]} to current transaction: {combined_row}")
+            combined_row += " " + merged_rows[i].strip()
+            i += 1
+        logger.debug(f"Combined transaction row: {combined_row}")
+        new_merged_rows.append(combined_row)
+    else:
+        new_merged_rows.append(current_row)
+        i += 1
+
+transactions = new_merged_rows
+
+for merged_row in new_merged_rows:
+    logger.info(f"New Merged Row: {merged_row}")
 
 transaction_obj_list = []
 
@@ -65,7 +88,7 @@ for transaction in transactions:
     logger.debug(f"Transaction: {transaction}")
     transaction_obj = map_statement_to_model(transaction, year)
     if transaction_obj is not None:
-        logger.info(f"Mapped Transaction: {transaction_obj}")
+        logger.debug(f"Mapped Transaction: {transaction_obj}")
         transaction_obj_list.append(transaction_obj)
 
 analysis = ml_analyze(transaction_obj_list)
@@ -76,8 +99,10 @@ for transaction in transaction_obj_list:
     # Convert amount to numeric (remove commas if present)
     amount = float(str(transaction.amount).replace(",", ""))
     if transaction.type == "Debit":
+        logger.info(f"Processing Debit Transaction: {transaction} , Amount: {amount}")
         net_balance_by_transactions -= amount
     elif transaction.type == "Credit":
+        logger.info(f"Processing Credit Transaction: {transaction} , Amount: {amount}")
         net_balance_by_transactions += amount
 
 logger.info(f"Net Balance calculated from transactions: {round(net_balance_by_transactions, 2)}")

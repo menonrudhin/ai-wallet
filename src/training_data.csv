@@ -3,11 +3,18 @@ abmwithdrawal,Cash,Debit
 abmwithdrawalofferspersonalizedcoverage,Cash,Debit
 billpayment,Credit Card,Debit
 canadacarbonrebate,Tax Refund,Credit
+canadacarbonrebate canada,Tax Refund,Credit
+canadacarbonrebatecanada,Tax Refund,Credit
 creditcard/locpayment,Credit Card,Debit
 creditcard/locpayment 3insurancesoyoucanfeel,Credit Card,Debit
 creditcard/locpaymentunexpected.scotiainsurance,Credit Card,Debit
+deposit mb-dep,Deposit,Credit
+depositmb-dep,Deposit,Credit
+deposit abc,Deposit,Credit
 deposit,Deposit,Credit
 abc deposit,Deposit,Credit
+deposit checkouttheoffersandgeta freeinterace-transfer,Deposit,Credit
+deposit freeinterace-transfer,Deposit,Credit
 depositcheckouttheoffersandgeta,Deposit,Credit
 health/dentalclaimins,Refund,Credit
 claim,Refund,Credit
@@ -15,10 +22,24 @@ investment,Investment,Debit
 investmentyourfamilyfromthe,Investment,Debit
 loans,Debt,Debit
 mb-transferto,Credit Card,Debit
-misc.payment,Car Installment,Debit
+misc.payment cdlsi,Car Installment,Debit
+misc.payment remitlycanadai,Remittance,Debit
+misc.paymentremitlycanadai,Remittance,Debit
+misc.paymen t    virtusacanada,Payroll,Credit
+misc.payment virtusacanada,Payroll,Credit
+misc.payment    cdndealerleaseservicesinc.,Insurance Settlement,Credit
+misc.payment cdndealerleaseservicesinc.,Insurance Settlement,Credit
+remitlycanadai,Remittance,Debit
+remitlycanada,Remittance,Debit
+remitly,Remittance,Debit
+cdlsi,Car Installment,Debit
 misc.paymentdeathandcriticalillness,Car Installment,Debit
 mortgagepayment,Mortgage,Debit
+mortgagepayment ,Mortgage,Debit
+mortgagepayment #,Mortgage,Debit
 mortgagepa yment,Mortgage,Debit
+mortgagepa yment ,Mortgage,Debit
+mortgagepa yment #,Mortgage,Debit
 payrolldep.,Payroll,Credit
 payrolldep.takestepstowardsprotecting,Payroll,Credit
 payrolldep.termlifetravelaccidental,Payroll,Credit
@@ -27,7 +48,10 @@ propertytaxes,Property Taxes,Debit
 propertytaxe s,Property Taxes,Debit
 propertytaxesconfidentthatyourcoverage,Property Taxes,Debit
 taxrefund,Tax Refund,Credit
+taxrefund canada,Tax Refund,Credit
+taxrefundcanada,Tax Refund,Credit
 abc taxrefund,Tax Refund,Credit
 utilitybill,Utility Bill,Debit
+virtusacanada,Payroll,Credit
 withdrawal,Cash,Debit
 withdrawalfitsyourspecificneeds.,Property Taxes,Debit

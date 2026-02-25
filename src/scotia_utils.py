@@ -69,6 +69,9 @@ def extract_description(row):
     if (row.strip() != "") and (not re.match(r"\${0,1}\d{1,3}(,\d{3})*(\.\d{2})?", row.strip())):
         # extract only the non-numeric part of the string as description
         desc = re.sub(r"\${0,1}\d{1,3}(,\d{3})*(\.\d{2})?", "", row).strip()
+        # remove first four characters if they are in format "feb "
+        if re.match(r"^[a-zA-Z]{3}\s", desc):
+            desc = desc[4:]
         logger.debug(f"Extracted description row: {desc}")
     return desc.strip()
 

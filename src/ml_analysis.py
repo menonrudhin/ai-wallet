@@ -47,7 +47,4 @@ def predict_type_for_transactions(transaction_obj_list):
     for txn, txn_type in zip(transaction_obj_list, predicted_types):
         txn.type = txn_type
 
-    for transaction in transaction_obj_list:
-        logger.info(f"Transaction: {transaction} , Predicted Type: {transaction.type}")
-
     return transaction_obj_list

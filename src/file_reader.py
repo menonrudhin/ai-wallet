@@ -15,6 +15,6 @@ def read_file(pdf_path, statement):
             tables = page.extract_tables(table_settings=table_setting)
             for table in tables:
                 for row in table:
-                    logger.info(row)
+                    logger.debug(row)
                     rows.append(row)
     return rows
