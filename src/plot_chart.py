@@ -47,6 +47,16 @@ def plot_bar_chart(df, return_fig=False):
 
     pivot_df = pivot_df.sort_index()
 
+    # ensure there is numeric data to plot
+    if pivot_df.empty or pivot_df.select_dtypes(include=["number"]).empty:
+        fig, ax = plt.subplots()
+        ax.axis("off")
+        ax.text(0.5, 0.5, "No numeric data to plot", ha="center")
+        if return_fig:
+            return fig
+        plt.show()
+        return
+
     fig = pivot_df.plot(kind="bar", figsize=(12,6)).figure
 
     plt.xlabel("Month-Year")

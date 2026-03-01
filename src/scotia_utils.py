@@ -158,3 +158,10 @@ def net_by_transactions(transaction_obj_list):
             net_balance_by_transactions += amount
 
     return round(net_balance_by_transactions, 2)
+
+def cleanup(rows):
+    cleaned_rows = []
+    for row in rows:
+        cleaned_row = [cell.strip() for cell in row]
+        cleaned_rows.append(cleaned_row)
+    return cleaned_rows

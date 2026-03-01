@@ -9,8 +9,12 @@ table_setting = {
 logger = logging.getLogger(__name__)
 
 def read_file(pdf_path, statement):
+    import os
+
     rows = []
-    with pdfplumber.open(pdf_path + statement) as pdf:
+    filepath = os.path.join(pdf_path, statement)
+    logger.debug(f"Opening PDF file: {filepath}")
+    with pdfplumber.open(filepath) as pdf:
         for page in pdf.pages:
             tables = page.extract_tables(table_settings=table_setting)
             for table in tables:
