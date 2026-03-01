@@ -4,11 +4,11 @@ import sys
 import logging
 import pandas as pd
 from file_reader import read_file
-from forcast.forcast_category import forecast_category, predict_next_year
+from forcast.forcast_category import predict_next_year
 from ml_analysis import ml_analyze
 from plot_chart import plot_bar_chart, plot_pie_chart
-from scotia_utils import extract_additional_description, merge_rows, net_by_transactions, opening_balance, closing_balance, extract_year
-from net_balance import net_balance_monthly
+from scotia_utils import extract_additional_description, merge_rows, opening_balance, closing_balance, extract_year
+from net_balance import net_balance_monthly, net_by_transactions
 from scotia_cleanup import cleanup
 from statement_to_model_mapper import map_statement_to_model
 
@@ -21,7 +21,7 @@ file_path = sys.argv[1]
 statements = ["jan.pdf","feb.pdf","mar.pdf","apr.pdf","may.pdf", "jun.pdf", "jul.pdf", "aug.pdf",
               "sep.pdf", "oct.pdf", "nov.pdf", "dec.pdf"]
 
-#statements = ["dec.pdf"]
+statements = ["jan.pdf"]
 
 logging.basicConfig(
     level=logging.INFO,

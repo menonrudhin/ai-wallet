@@ -6,15 +6,18 @@ import tempfile
 import pandas as pd
 import logging
 import matplotlib
+
 # use non-interactive backend to avoid GUI errors in threads
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_pdf import PdfPages
 
 from file_reader import read_file
-from scotia_utils import cleanup, opening_balance, closing_balance, extract_year
+from scotia_utils import opening_balance, closing_balance, extract_year, merge_rows, extract_additional_description
+from scotia_cleanup import cleanup
 from statement_to_model_mapper import map_statement_to_model
 from ml_analysis import ml_analyze
+from net_balance import net_balance_monthly, net_by_transactions
 from plot_chart import plot_pie_chart, plot_bar_chart
 from forcast.forcast_category import predict_next_year
 
@@ -40,13 +43,8 @@ def process_files(file_paths):
         start = opening_balance(rows)
         close = closing_balance(rows)
         year = extract_year(rows)
-        net_balance = 0
-        if start is not None and close is not None:
-            net_balance = float(str(close).replace("$", "").replace(",", "")) - float(str(start).replace("$", "").replace(",", ""))
+        net_balance = net_balance_monthly(start, close)
         overall_net_balance += net_balance
-
-    # merge and extract additional description is performed in analyzer; replicate here
-    from scotia_utils import merge_rows, extract_additional_description, net_by_transactions
 
     merged_rows = merge_rows(transactions)
     transactions = extract_additional_description(merged_rows)
@@ -90,6 +88,7 @@ def process_files(file_paths):
             plt.close(fig)
 
             # forecast page
+            # prepare forecast
             fig, ax = plt.subplots()
             ax.axis("off")
             lines = ["Forecasted total next year:", str(total_next_year)]

@@ -32,6 +32,7 @@ def extract_year(rows):
         for cell in row:
             if "openingbalanceon" in cell:
                 year = cell.split(",")[-1]
+                print(f"Extracted year: {year} from cell: {cell}")
                 return year
             
 def extract_date(row, year):
@@ -158,10 +159,3 @@ def net_by_transactions(transaction_obj_list):
             net_balance_by_transactions += amount
 
     return round(net_balance_by_transactions, 2)
-
-def cleanup(rows):
-    cleaned_rows = []
-    for row in rows:
-        cleaned_row = [cell.strip() for cell in row]
-        cleaned_rows.append(cleaned_row)
-    return cleaned_rows

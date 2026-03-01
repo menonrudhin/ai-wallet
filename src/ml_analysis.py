@@ -17,6 +17,8 @@ def ml_analyze(transaction_obj_list):
     # create a dataframe from transaction_obj_list
     df = create_dataframe_from_transactions(transaction_obj_list)
 
+    print(f"Dataframe after ML analysis: \n{df.head()}")
+
     return (df,transaction_obj_list)
 
 def create_dataframe_from_transactions(transaction_obj_list):
