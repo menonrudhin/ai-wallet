@@ -2,10 +2,12 @@ import re
 import time
 import sys
 import logging
+import pandas as pd
 from file_reader import read_file
+from forcast.forcast_category import forecast_category, predict_next_year
 from ml_analysis import ml_analyze
 from plot_chart import plot_bar_chart, plot_pie_chart
-from scotia_utils import opening_balance, closing_balance, extract_year
+from scotia_utils import extract_additional_description, merge_rows, net_by_transactions, opening_balance, closing_balance, extract_year
 from net_balance import net_balance_monthly
 from scotia_cleanup import cleanup
 from statement_to_model_mapper import map_statement_to_model
@@ -49,41 +51,17 @@ for statement in statements:
 
 logger.info(f"Overall Net Balance for the year: {round(overall_net_balance, 2)}")
 
-merged_rows = []
-for row in transactions:
-    merged_row = " ".join(row)
-    merged_rows.append(merged_row)
-
-for merged_row in merged_rows:
-    logger.debug(f"Merged Row: {merged_row}")
+# Merge all the cells in transactions into a single list of strings
+merged_rows = merge_rows(transactions)
 
 # for every row in merged_rows, if the row starts with pattern jan31 then append all the next non empty rows to the current row until we find another row that starts with pattern jan31 or we reach the end of merged_rows
-pattern = re.compile(r"(^[a-zA-Z]{3}\d{1,2})")  # Pattern to match lines starting with a word followed by 2 digits (e.g., jan31)
-new_merged_rows = []
-i = 0
-while i < len(merged_rows):
-    current_row = merged_rows[i]
-    if pattern.match(current_row.strip()):
-        logger.debug(f"Transaction start with date: {current_row} at index: {i}")
-        combined_row = current_row.strip()
-        i += 1
-        while i < len(merged_rows) and not pattern.match(merged_rows[i].strip()) and merged_rows[i].strip() != "":
-            logger.debug(f"Appending row: {merged_rows[i]} to current transaction: {combined_row}")
-            combined_row += " " + merged_rows[i].strip()
-            i += 1
-        logger.debug(f"Combined transaction row: {combined_row}")
-        new_merged_rows.append(combined_row)
-    else:
-        new_merged_rows.append(current_row)
-        i += 1
+transactions = extract_additional_description(merged_rows)
 
-transactions = new_merged_rows
-
-for merged_row in new_merged_rows:
+for merged_row in transactions:
     logger.info(f"New Merged Row: {merged_row}")
 
+# create a list of transaction objects from transactions using map_statement_to_model function and store it in transaction_obj_list
 transaction_obj_list = []
-
 for transaction in transactions:
     logger.debug(f"Transaction: {transaction}")
     transaction_obj = map_statement_to_model(transaction, year)
@@ -91,21 +69,16 @@ for transaction in transactions:
         logger.debug(f"Mapped Transaction: {transaction_obj}")
         transaction_obj_list.append(transaction_obj)
 
+# ml analysis
 analysis = ml_analyze(transaction_obj_list)
 
-net_balance_by_transactions = 0
-
-for transaction in transaction_obj_list:
-    # Convert amount to numeric (remove commas if present)
-    amount = float(str(transaction.amount).replace(",", ""))
-    if transaction.type == "Debit":
-        logger.info(f"Processing Debit Transaction: {transaction} , Amount: {amount}")
-        net_balance_by_transactions -= amount
-    elif transaction.type == "Credit":
-        logger.info(f"Processing Credit Transaction: {transaction} , Amount: {amount}")
-        net_balance_by_transactions += amount
-
+net_balance_by_transactions = net_by_transactions(transaction_obj_list)
 logger.info(f"Net Balance calculated from transactions: {round(net_balance_by_transactions, 2)}")
 
+# Plot charts
 plot_pie_chart(analysis[0])
 plot_bar_chart(analysis[0])
+
+# Forcasting
+df = analysis[0]
+total_next_year = predict_next_year(df)

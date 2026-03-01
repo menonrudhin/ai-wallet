@@ -112,3 +112,49 @@ def extract_balance(row):
     if max > 1:
         return all_matches[max-1]
     return None
+
+def merge_rows(transactions):
+    merged_rows = []
+    for transaction in transactions:
+        merged_row = " ".join(transaction)
+        merged_rows.append(merged_row)
+
+    for merged_row in merged_rows:
+        logger.debug(f"Merged Row: {merged_row}")
+    
+    return merged_rows
+
+def extract_additional_description(merged_rows):
+    pattern = re.compile(r"(^[a-zA-Z]{3}\d{1,2})")  # Pattern to match lines starting with a word followed by 2 digits (e.g., jan31)
+    new_merged_rows = []
+    i = 0
+    while i < len(merged_rows):
+        current_row = merged_rows[i]
+        if pattern.match(current_row.strip()):
+            logger.debug(f"Transaction start with date: {current_row} at index: {i}")
+            combined_row = current_row.strip()
+            i += 1
+            while i < len(merged_rows) and not pattern.match(merged_rows[i].strip()) and merged_rows[i].strip() != "":
+                logger.debug(f"Appending row: {merged_rows[i]} to current transaction: {combined_row}")
+                combined_row += " " + merged_rows[i].strip()
+                i += 1
+            logger.debug(f"Combined transaction row: {combined_row}")
+            new_merged_rows.append(combined_row)
+        else:
+            new_merged_rows.append(current_row)
+            i += 1
+    return new_merged_rows
+
+def net_by_transactions(transaction_obj_list):
+    net_balance_by_transactions = 0
+    for transaction in transaction_obj_list:
+        # Convert amount to numeric (remove commas if present)
+        amount = float(str(transaction.amount).replace(",", ""))
+        if transaction.type == "Debit":
+            logger.debug(f"Processing Debit Transaction: {transaction} , Amount: {amount}")
+            net_balance_by_transactions -= amount
+        elif transaction.type == "Credit":
+            logger.debug(f"Processing Credit Transaction: {transaction} , Amount: {amount}")
+            net_balance_by_transactions += amount
+
+    return round(net_balance_by_transactions, 2)

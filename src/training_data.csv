@@ -16,6 +16,11 @@ abc deposit,Deposit,Credit
 deposit checkouttheoffersandgeta freeinterace-transfer,Deposit,Credit
 deposit freeinterace-transfer,Deposit,Credit
 depositcheckouttheoffersandgeta,Deposit,Credit
+goodlife,Services,Debit
+goodlifefitnesscentresinc,Services,Debit
+misc.paymen t    goodlifefitn esscentresinc,Services,Debit
+misc.payment goodlifefitnesscentresinc,Services,Debit
+fitness,Services,Debit
 health/dentalclaimins,Refund,Credit
 claim,Refund,Credit
 investment,Investment,Debit
@@ -52,6 +57,10 @@ taxrefund canada,Tax Refund,Credit
 taxrefundcanada,Tax Refund,Credit
 abc taxrefund,Tax Refund,Credit
 utilitybill,Utility Bill,Debit
+burlingtonhy droinc,Utility Bill,Debit
+burlingtonhydroinc,Utility Bill,Debit
+enbridge,Utility Bill,Debit
+enbridgegasinc,Utility Bill,Debit
 virtusacanada,Payroll,Credit
 withdrawal,Cash,Debit
 withdrawalfitsyourspecificneeds.,Property Taxes,Debit
