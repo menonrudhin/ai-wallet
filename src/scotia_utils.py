@@ -32,7 +32,7 @@ def extract_year(rows):
         for cell in row:
             if "openingbalanceon" in cell:
                 year = cell.split(",")[-1]
-                print(f"Extracted year: {year} from cell: {cell}")
+                logger.debug(f"Extracted year: {year} from cell: {cell}")
                 return year
             
 def extract_date(row, year):
@@ -145,17 +145,3 @@ def extract_additional_description(merged_rows):
             new_merged_rows.append(current_row)
             i += 1
     return new_merged_rows
-
-def net_by_transactions(transaction_obj_list):
-    net_balance_by_transactions = 0
-    for transaction in transaction_obj_list:
-        # Convert amount to numeric (remove commas if present)
-        amount = float(str(transaction.amount).replace(",", ""))
-        if transaction.type == "Debit":
-            logger.debug(f"Processing Debit Transaction: {transaction} , Amount: {amount}")
-            net_balance_by_transactions -= amount
-        elif transaction.type == "Credit":
-            logger.debug(f"Processing Credit Transaction: {transaction} , Amount: {amount}")
-            net_balance_by_transactions += amount
-
-    return round(net_balance_by_transactions, 2)

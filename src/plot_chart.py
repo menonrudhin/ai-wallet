@@ -28,7 +28,7 @@ def plot_bar_chart(df, return_fig=False):
     # Convert amount to numeric (remove commas first)
     df["amount"] = df["amount"].astype(str).str.replace(",", "").apply(pd.to_numeric, errors="coerce")
     
-    print(f"Dataframe before grouping for bar chart: \n{df.head()}")
+    logger.debug(f"Dataframe before grouping for bar chart: \n{df.head()}")
 
     # Group by MonthYear and Category
     monthly_data = (
@@ -40,7 +40,7 @@ def plot_bar_chart(df, return_fig=False):
     # Convert MonthYear back to string for plotting
     monthly_data["date"] = monthly_data["date"].apply(lambda x: f"{x.month}/{x.year}")
 
-    print(f"Monthly data for bar chart: \n{monthly_data.head()}")
+    logger.debug(f"Monthly data for bar chart: \n{monthly_data.head()}")
 
     # Pivot table for grouped bar chart
     pivot_df = monthly_data.pivot_table(
@@ -52,7 +52,7 @@ def plot_bar_chart(df, return_fig=False):
 
     pivot_df = pivot_df.sort_index()
 
-    print(f"Pivot table for bar chart: \n{pivot_df.head()}")
+    logger.debug(f"Pivot table for bar chart: \n{pivot_df.head()}")
 
     # ensure there is numeric data to plot
     if pivot_df.empty or pivot_df.select_dtypes(include=["number"]).empty:

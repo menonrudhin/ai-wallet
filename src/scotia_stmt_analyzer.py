@@ -21,7 +21,7 @@ file_path = sys.argv[1]
 statements = ["jan.pdf","feb.pdf","mar.pdf","apr.pdf","may.pdf", "jun.pdf", "jul.pdf", "aug.pdf",
               "sep.pdf", "oct.pdf", "nov.pdf", "dec.pdf"]
 
-statements = ["jan.pdf"]
+#statements = ["jan.pdf"]
 
 logging.basicConfig(
     level=logging.INFO,
