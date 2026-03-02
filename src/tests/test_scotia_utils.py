@@ -48,34 +48,34 @@ class TestScotiaUtils(unittest.TestCase):
         self.assertEqual(result, datetime(2024, 10, 31, 0, 0))
 
     def test_extract_description_1(self):
-        row = ['jan13 health/dentalclaimins', '', '68.40 16,753.11', '']
+        row = 'jan13 health/dentalclaimins 68.40 16,753.11 '
         result = extract_description(row)
-        self.assertEqual(result, ["health/dentalclaimins"])
+        self.assertEqual(result, "health/dentalclaimins")
 
     def test_extract_description_2(self):
-        row = ['jan30', 'mortgagepa', 'yment', '2,495.06', '', '19,452.12']
+        row = 'jan30 mortgagepa yment2,495.06 19,452.12'
         result = extract_description(row)
-        self.assertEqual(result, ["mortgagepa", "yment"])
+        self.assertEqual(result, "mortgagepa yment")
 
     def test_extract_transaction_amount_1(self):
-        row = ['jan30', 'mortgagepa', 'yment', '2,495.06', '', '19,452.12']
+        row = 'jan30mortgagepa yment 2,495.0619,452.12'
         result = extract_transaction_amount(row)
         self.assertEqual(result, "2,495.06")
 
     def test_extract_transaction_amount_2(self):
-        row = ['jan30', 'payrolldep.', '', '', '3,977.36', '21,947.18']
+        row = 'jan30 payrolldep. 3,977.3621,947.18'
         result = extract_transaction_amount(row)
         self.assertEqual(result, "3,977.36")
 
     def test_extract_transaction_amount_3(self):
-        row = ['jan9 deposit', '', '1,000.00 17,960.71', '']
+        row = 'jan9 1,000.00 17,960.71'
         result = extract_transaction_amount(row)
         self.assertEqual(result, "1,000.00")
 
-    def test_extract_transaction_amount_3(self):
-        row = ['jan9 deposit', '', '1,000.00 17,960.71', '']
+    def test_extract_transaction_amount_4(self):
+        row = 'jan9 deposit1,000.00 17,960.71 675.00'
         result = extract_balance(row)
-        self.assertEqual(result, "17,960.71")
+        self.assertEqual(result, "675.00")
     
 
 if __name__ == '__main__':
