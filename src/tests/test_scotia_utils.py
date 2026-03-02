@@ -1,6 +1,6 @@
 import unittest
 from datetime import datetime
-from scotia_utils import extract_balance, extract_date, extract_description, extract_transaction_amount, extract_year, opening_balance, closing_balance
+from scotia_utils import extract_balance, extract_date, extract_description, extract_transaction_amount, extract_year, opening_balance, closing_balance, merge_rows, extract_additional_description
 
 class TestScotiaUtils(unittest.TestCase):
     def test_hello_world(self):
@@ -76,7 +76,17 @@ class TestScotiaUtils(unittest.TestCase):
         row = 'jan9 deposit1,000.00 17,960.71 675.00'
         result = extract_balance(row)
         self.assertEqual(result, "675.00")
-    
+
+    def test_merge_rows_and_additional_description(self):
+        transactions = [["jan1", "food"], ["extra line"], ["feb2", "rent"], ["more"]]
+        merged = merge_rows(transactions)
+        # each inner list becomes single string
+        self.assertEqual(merged, ["jan1 food", "extra line", "feb2 rent", "more"])
+
+        # now feed merged into extract_additional_description
+        extended = extract_additional_description(merged)
+        # second item should be appended to first transaction until new date pattern
+        self.assertEqual(extended, ["jan1 food extra line", "feb2 rent more"])    
 
 if __name__ == '__main__':
     unittest.main()
