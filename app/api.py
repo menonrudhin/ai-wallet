@@ -20,18 +20,11 @@ from ml_analysis import ml_analyze
 from net_balance import net_balance_monthly, net_by_transactions
 from plot_chart import plot_pie_chart, plot_bar_chart
 from forcast.forcast_category import predict_next_year
-from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 
 app = FastAPI()
-# enable cors for local development
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["http://localhost:3000"],
-    allow_methods=["POST"],
-    allow_headers=["*"],
-)
-logger = logging.getLogger(__name__)
 
+logger = logging.getLogger(__name__)
 
 def process_files(transactions, year, overall_net_balance):
     merged_rows = merge_rows(transactions)
@@ -107,3 +100,6 @@ def upload_pdfs(files: list[UploadFile] = File(...)):
         overall_net_balance += net_balance
     report_file = process_files(transactions, year, overall_net_balance)
     return StreamingResponse(report_file, media_type="application/pdf", headers={"Content-Disposition": "attachment; filename=report.pdf"})
+
+
+app.mount("/", StaticFiles(directory="static", html=True), name="static")
