@@ -9,5 +9,6 @@ tqdm
 jsonschema
 fonttools
 prophet
+python-multipart
 scikit-learn
 streamlit
