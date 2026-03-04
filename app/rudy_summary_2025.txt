@@ -1,0 +1,49 @@
+Statement Summary for : jan.pdf
+Opening Balance: $19,443.87
+Closing Balance: $12,688.57
+Net Balance: -6755.3
+Statement Summary for : feb.pdf
+Opening Balance: $12,688.57
+Closing Balance: $9,575.20
+Net Balance: -3113.37
+Statement Summary for : mar.pdf
+Opening Balance: $9,575.20
+Closing Balance: $9,712.90
+Net Balance: 137.7
+Statement Summary for : apr.pdf
+Opening Balance: $9,712.90
+Closing Balance: $9,372.81
+Net Balance: -340.09
+Statement Summary for : may.pdf
+Opening Balance: $9,372.81
+Closing Balance: $12,187.97
+Net Balance: 2815.16
+Statement Summary for : jun.pdf
+Opening Balance: $12,187.97
+Closing Balance: $17,288.74
+Net Balance: 5100.77
+Statement Summary for : jul.pdf
+Opening Balance: $17,288.74
+Closing Balance: $17,412.87
+Net Balance: 124.13
+Statement Summary for : aug.pdf
+Opening Balance: $17,412.87
+Closing Balance: $14,385.52
+Net Balance: -3027.35
+Statement Summary for : sep.pdf
+Opening Balance: $14,385.52
+Closing Balance: $13,410.35
+Net Balance: -975.17
+Statement Summary for : oct.pdf
+Opening Balance: $13,410.35
+Closing Balance: $21,006.64
+Net Balance: 7596.29
+Statement Summary for : nov.pdf
+Opening Balance: $21,006.64
+Closing Balance: $22,516.84
+Net Balance: 1510.2
+Statement Summary for : dec.pdf
+Opening Balance: $22,516.84
+Closing Balance: $20,205.77
+Net Balance: -2311.07
+Overall Net Balance for the year: 761.9

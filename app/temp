@@ -1,0 +1,31 @@
+mporting plotly failed. Interactive plots will not work.
+Extracted year: 2025 from cell: openingbalanceonjanuary1,2025
+Extracted year: 2025 from cell: openingbalanceonfebruary1,2025
+Extracted year: 2025 from cell: openingbalanceonmarch1,2025
+Extracted year: 2025 from cell: openingbalanceonapril1,2025
+Extracted year: 2025 from cell: openingbalanceonmay1,2025
+Extracted year: 2025 from cell: openingbalanceonjune1,2025
+Extracted year: 2025 from cell: openingbalanceonjuly1,2025
+Extracted year: 2025 from cell: openingbalanceonaugust1,2025
+Extracted year: 2025 from cell: openingbalanceonseptember1,2025
+Extracted year: 2025 from cell: openingbalanceonoctober1,2025
+Extracted year: 2025 from cell: openingbalanceonnovember1,2025
+Extracted year: 2025 from cell: openingbalanceondecember1,2025
+Dataframe after ML analysis: 
+        date                        description    amount    balance         category    type
+0 2025-12-31     billpayment   canadiantirebank    156.27          5      Credit Card   Debit
+1 2025-01-03               mortgagepayment   #-  2,495.06          5         Mortgage   Debit
+2 2025-01-03        misc.payment   affirmcanada     42.91  16,749.63         Services   Debit
+3 2025-01-06               misc.payment   cdlsi    259.62  16,490.01  Car Installment   Debit
+4 2025-01-10  payrolldep.    ssainfosystemsinc.  4,013.42  20,503.43          Payroll  Credit
+Dataframe before grouping for bar chart: 
+        date                        description   amount    balance         category    type
+0 2025-12-31     billpayment   canadiantirebank   156.27          5      Credit Card   Debit
+1 2025-01-03               mortgagepayment   #-  2495.06          5         Mortgage   Debit
+2 2025-01-03        misc.payment   affirmcanada    42.91  16,749.63         Services   Debit
+3 2025-01-06               misc.payment   cdlsi   259.62  16,490.01  Car Installment   Debit
+4 2025-01-10  payrolldep.    ssainfosystemsinc.  4013.42  20,503.43          Payroll  Credit
+Monthly data for bar chart: 
+     date         category   amount
+0  1/2025         Mortgage  2495.06
+
