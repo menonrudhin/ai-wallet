@@ -37,7 +37,7 @@ def predict_categories_for_transactions(transaction_obj_list):
         txn.category = category
 
     for transaction in transaction_obj_list:
-        logger.info(f"Transaction: {transaction} , Predicted Category: {transaction.category}")
+        logger.debug(f"Transaction: {transaction} , Predicted Category: {transaction.category}")
 
     return transaction_obj_list
 

@@ -58,7 +58,7 @@ merged_rows = merge_rows(transactions)
 transactions = extract_additional_description(merged_rows)
 
 for merged_row in transactions:
-    logger.info(f"New Merged Row: {merged_row}")
+    logger.debug(f"New Merged Row: {merged_row}")
 
 # create a list of transaction objects from transactions using map_statement_to_model function and store it in transaction_obj_list
 transaction_obj_list = []
