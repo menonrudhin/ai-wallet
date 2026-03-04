@@ -8,5 +8,6 @@ matplotlib
 tqdm
 jsonschema
 fonttools
+prophet
 scikit-learn
 streamlit
