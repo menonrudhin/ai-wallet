@@ -1,0 +1,11 @@
+fastapi
+uvicorn[standard]
+pdfplumber
+pypdfium2
+pandas
+numpy
+matplotlib
+tqdm
+jsonschema
+fonttools
+streamlit
