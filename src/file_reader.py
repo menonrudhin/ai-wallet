@@ -22,3 +22,15 @@ def read_file(pdf_path, statement):
                     logger.debug(row)
                     rows.append(row)
     return rows
+
+def read_file_api(statement):
+    rows = []
+    logger.debug(f"Opening PDF file: {statement.filename}")
+    with pdfplumber.open(statement.file) as pdf:
+        for page in pdf.pages:
+            tables = page.extract_tables(table_settings=table_setting)
+            for table in tables:
+                for row in table:
+                    logger.debug(row)
+                    rows.append(row)
+    return rows

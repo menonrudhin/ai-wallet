@@ -12,7 +12,7 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_pdf import PdfPages
 
-from file_reader import read_file
+from file_reader import read_file, read_file_api
 from scotia_utils import opening_balance, closing_balance, extract_year, merge_rows, extract_additional_description
 from scotia_cleanup import cleanup
 from statement_to_model_mapper import map_statement_to_model
@@ -25,27 +25,7 @@ app = FastAPI()
 logger = logging.getLogger(__name__)
 
 
-def process_files(file_paths):
-    """
-    Given a list of full paths to statement PDF files, process them and
-    return a bytes object representing a PDF report.
-    """
-    overall_net_balance = 0
-    transactions = []
-    year = None
-
-    # Read and clean each statement; assume filename identifies statement
-    for path in file_paths:
-        directory, fname = os.path.split(path)
-        rows = read_file(directory, fname)
-        rows = cleanup(rows)
-        transactions.extend(rows)
-        start = opening_balance(rows)
-        close = closing_balance(rows)
-        year = extract_year(rows)
-        net_balance = net_balance_monthly(start, close)
-        overall_net_balance += net_balance
-
+def process_files(transactions, year, overall_net_balance):
     merged_rows = merge_rows(transactions)
     transactions = extract_additional_description(merged_rows)
 
@@ -105,28 +85,17 @@ def process_files(file_paths):
 
 @app.post("/upload")
 def upload_pdfs(files: list[UploadFile] = File(...)):
-    if not files:
-        raise HTTPException(status_code=400, detail="No files uploaded")
-
-    temp_dir = tempfile.mkdtemp()
-    saved_paths = []
-    try:
-        for upload in files:
-            file_location = os.path.join(temp_dir, upload.filename)
-            with open(file_location, "wb") as buffer:
-                shutil.copyfileobj(upload.file, buffer)
-            saved_paths.append(file_location)
-
-        report_file = process_files(saved_paths)
-        return StreamingResponse(report_file, media_type="application/pdf", headers={"Content-Disposition": "attachment; filename=report.pdf"})
-    finally:
-        # cleanup temp files
-        for p in saved_paths:
-            try:
-                os.remove(p)
-            except Exception:
-                pass
-        try:
-            os.rmdir(temp_dir)
-        except Exception:
-            pass
+    overall_net_balance = 0
+    transactions = []
+    year = None
+    for file in files:
+        rows = read_file_api(file)
+        rows = cleanup(rows)
+        transactions.extend(rows)
+        start = opening_balance(rows)
+        close = closing_balance(rows)
+        year = extract_year(rows)
+        net_balance = net_balance_monthly(start, close)
+        overall_net_balance += net_balance
+    report_file = process_files(transactions, year, overall_net_balance)
+    return StreamingResponse(report_file, media_type="application/pdf", headers={"Content-Disposition": "attachment; filename=report.pdf"})
