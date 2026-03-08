@@ -26,6 +26,9 @@ claim,Refund,Credit
 investment,Investment,Debit
 investmentyourfamilyfromthe,Investment,Debit
 loans,Debt,Debit
+loans financeit,Debt,Debit
+financeit,Debt,Debit
+loansfinanceit,Debt,Debit
 mb-transferto,Credit Card,Debit
 misc.payment cdlsi,Car Installment,Debit
 misc.payment remitlycanadai,Remittance,Debit
@@ -64,3 +67,10 @@ enbridgegasinc,Utility Bill,Debit
 virtusacanada,Payroll,Credit
 withdrawal,Cash,Debit
 withdrawalfitsyourspecificneeds.,Property Taxes,Debit
+investment wealthsimpleinvestmentsinc.,Investment,Debit
+investmentwealthsimpleinvestmentsinc.,Investment,Debit
+wealthsimpleinvestmentsinc.,Investment,Debit
+withdrawal freeinterace-transfer,Cash,Debit
+withdrawalfreeinterace-transfer,Cash,Debit
+withdrawal,Cash,Debit
+investment,Investment,Debit
