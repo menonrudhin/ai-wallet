@@ -78,14 +78,26 @@ def process_files(transactions, year, overall_net_balance):
             plt.close(fig)
 
             # top ten transactions page
-            top_ten = analysis_df.sort_values("amount", ascending=False).head(10)
+            top_ten_df = analysis_df.groupby("category").agg({"amount": "sum", "description": "first"}).reset_index()
+            top_ten = top_ten_df.sort_values("amount", ascending=False).head(10)
             fig, ax = plt.subplots()
             ax.axis("off")
-            table_data = top_ten[["description", "amount"]].values
-            table = ax.table(cellText=table_data, colLabels=["Description", "Amount"], loc="center")
+            table_data = top_ten[["category", "amount"]].values
+            table = ax.table(cellText=table_data, colLabels=["Category", "Amount"], loc="center")
             table.auto_set_font_size(False)
             table.set_fontsize(8)
             table.scale(1, 1.5)
+            pdf.savefig(fig)
+            plt.close(fig)
+
+            # page for category and description
+            fig, ax = plt.subplots()
+            ax.axis("off")
+            text = "Category and Description:\n\n"
+            for _, row in analysis_df.iterrows():
+                text += f"{row['category']}: {row['description']}\n"
+            text+= "\n\n Please report any corrections to the descriptions to help improve the model.\n"
+            ax.text(0.1, 0.5, text, fontsize=8)
             pdf.savefig(fig)
             plt.close(fig)
 
