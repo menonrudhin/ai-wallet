@@ -77,6 +77,18 @@ def process_files(transactions, year, overall_net_balance):
             pdf.savefig(fig)
             plt.close(fig)
 
+            # top ten transactions page
+            top_ten = analysis_df.sort_values("amount", ascending=False).head(10)
+            fig, ax = plt.subplots()
+            ax.axis("off")
+            table_data = top_ten[["description", "amount"]].values
+            table = ax.table(cellText=table_data, colLabels=["Description", "Amount"], loc="center")
+            table.auto_set_font_size(False)
+            table.set_fontsize(8)
+            table.scale(1, 1.5)
+            pdf.savefig(fig)
+            plt.close(fig)
+
         buffer.seek(0)
         return open(buffer.name, "rb")
     finally:
