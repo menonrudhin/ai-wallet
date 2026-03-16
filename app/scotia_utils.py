@@ -136,12 +136,35 @@ def extract_additional_description(merged_rows):
             combined_row = current_row.strip()
             i += 1
             while i < len(merged_rows) and not pattern.match(merged_rows[i].strip()) and merged_rows[i].strip() != "":
+                logger.debug(f"should be skipped or not row: {current_row} at index: {i}")
+                if ("continuedonnextpage" in merged_rows[i].strip() or "hereswhathappenedinyouraccount" in merged_rows[i].strip() or "continued" in merged_rows[i].strip() or "amountsamountsdatetransactions" in merged_rows[i].strip()):
+                    logger.debug(f"Skipping row: {merged_rows[i]} at index: {i} as it contains continuation pattern")
+                    i += 1
+                    continue
                 logger.debug(f"Appending row: {merged_rows[i]} to current transaction: {combined_row}")
                 combined_row += " " + merged_rows[i].strip()
                 i += 1
             logger.debug(f"Combined transaction row: {combined_row}")
+            combined_row = fix_broken_words(combined_row)
+            logger.debug(f"Combined transaction row after fixing broken words: {combined_row}")
             new_merged_rows.append(combined_row)
         else:
             new_merged_rows.append(current_row)
             i += 1
     return new_merged_rows
+
+def fix_broken_words(text):
+
+    # lower case
+    text = text.lower()
+
+    # remove punctuation
+    text = re.sub(r'[^a-z\s]', ' ', text)
+
+    # remove spaces between letters that belong to same word
+    text = re.sub(r'(?<=[a-z])\s(?=[a-z])', '', text)
+
+    # collapse extra spaces
+    text = re.sub(r'\s+', ' ', text)
+
+    return text.strip()
