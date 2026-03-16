@@ -26,6 +26,15 @@ app = FastAPI()
 
 logger = logging.getLogger(__name__)
 
+# disable cors for local testing
+# from fastapi.middleware.cors import CORSMiddleware
+# app.add_middleware(
+#     CORSMiddleware,
+#     allow_origins=["*"],
+#     allow_methods=["*"],
+#     allow_headers=["*"],
+# )
+
 def process_files(transactions, year, overall_net_balance):
     merged_rows = merge_rows(transactions)
     transactions = extract_additional_description(merged_rows)

@@ -28,5 +28,5 @@ def map_statement_to_model(row, year):
         logger.debug(f"Skipping row due to missing balance: {row}")
         return None
     transaction = TransactionModel(date, description, amount, balance)
-    #logger.info(f"Mapped transaction: {transaction}")
+    logger.debug(f"Mapped transaction: {transaction}")
     return transaction

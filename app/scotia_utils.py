@@ -158,13 +158,23 @@ def fix_broken_words(text):
     # lower case
     text = text.lower()
 
+    # remove punctuations after the first occurrence of a date pattern (e.g., jan31)
+    date_pattern = re.compile(r"^[a-zA-Z]{3}\d{1,2}")
+    match = date_pattern.match(text.strip())
+    rest_of_text = text
+    if match:        
+        date_part = match.group(0)
+        rest_of_text = text[match.end():]
+
     # remove punctuation
-    text = re.sub(r'[^a-z\s]', ' ', text)
+    rest_of_text = re.sub(r'[^a-z\s]', ' ', rest_of_text)
 
     # remove spaces between letters that belong to same word
-    text = re.sub(r'(?<=[a-z])\s(?=[a-z])', '', text)
+    rest_of_text = re.sub(r'(?<=[a-z])\s(?=[a-z])', '', rest_of_text)
 
     # collapse extra spaces
-    text = re.sub(r'\s+', ' ', text)
+    rest_of_text = re.sub(r'\s+', ' ', rest_of_text)
+
+    text = text + " " + rest_of_text if match else rest_of_text
 
     return text.strip()
